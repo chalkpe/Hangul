@@ -5,15 +5,15 @@ public class Hangul {
 		OBJECT, NOUN, CONJUNCTION;
 	}
 	
-	public static final char CHAR_BEGIN = 0xAC00; //-> 가
-	public static final char CHAR_END = 0xD7A3;   //-> 힣
+	public static final char CHAR_BEGIN = 0xAC00;  //-> 가
+	public static final char CHAR_END = 0xD7A3;    //-> 힣
 	
-	public static final char CHAR_EUL = 51012;    //-> 을
-	public static final char CHAR_LEUL = 47484;   //-> 를
-	public static final char CHAR_I = 51060;      //-> 이
-	public static final char CHAR_GA = 44032;     //-> 가
-	public static final char CHAR_EUN = 51008;    //-> 은
-	public static final char CHAR_NEUN = 45716;   //-> 는
+	public static final char CHAR_EUL = 0xC744;    //-> 을
+	public static final char CHAR_LEUL = 0xB97C;   //-> 를
+	public static final char CHAR_I = 0xC774;      //-> 이
+	public static final char CHAR_GA = CHAR_BEGIN; //-> 가
+	public static final char CHAR_EUN = 0xC740;    //-> 은
+	public static final char CHAR_NEUN = 0xB294;   //-> 는
 	
 	
 	public static boolean hasFinalConsonant(final char unicode){
