@@ -13,13 +13,34 @@ public class Hangul {
 	public static final char CHAR_NEUN = 45716;//는
 	
 	public static boolean hasConsonant(final char unicode){
-		if(unicode < 0xAC00 || unicode > 0xD7AF){
-			return false;
-		}
+		
 		return (unicode-44032)%28 != 0;
 	}
 	
-	public static char getNext(final char unicode){
-		
+	public static char getNext(final char unicode, int mode){
+		if(unicode < 0xAC00 || unicode > 0xD7AF){
+			return 0;
+		}
+		switch(mode){
+		case MODE_OBJECT:
+			if(hasConsonant(unicode)){
+				return CHAR_EUL;
+			}else{
+				return CHAR_LEUL;
+			}
+		case MODE_NOUN:
+			if(hasConsonant(unicode)){
+				return CHAR_EUN;
+			}else{
+				return CHAR_NEUN;
+			}
+		case MODE_CONJUNCTION:
+			if(hasConsonant(unicode)){
+				return CHAR_I;
+			}else{
+				return CHAR_GA;
+			}
+		}
+		return 0;
 	}
 }
