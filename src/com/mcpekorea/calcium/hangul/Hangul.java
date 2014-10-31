@@ -2,7 +2,10 @@ package com.mcpekorea.calcium.hangul;
 
 public class Hangul {
 	public static enum Mode {
-		OBJECT, NOUN, CONJUNCTION, AND;
+		OBJECT, // 을/를
+		NOUN, // 은/는
+		CONJUNCTION, // 이/가
+		AND; // 와/과
 	}
 	
 	public static final char CHAR_BEGIN = 0xAC00;  //-> 가
