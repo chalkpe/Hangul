@@ -2,10 +2,10 @@ package com.mcpekorea.calcium.hangul;
 
 public class Hangul {
 	public static enum Mode {
-		OBJECT, // 을/를
-		NOUN, // 은/는
-		CONJUNCTION, // 이/가
-		AND; // 와/과
+		OBJECT,      //-> 을/를
+		NOUN,        //-> 은/는
+		CONJUNCTION, //-> 이/가
+		AND;         //-> 와/과
 	}
 	
 	public static final char CHAR_BEGIN = 0xAC00;  //-> 가
@@ -17,8 +17,8 @@ public class Hangul {
 	public static final char CHAR_GA = CHAR_BEGIN; //-> 가
 	public static final char CHAR_EUN = 0xC740;    //-> 은
 	public static final char CHAR_NEUN = 0xB294;   //-> 는
-	public static final char CHAR_WA = 0xC640;
-	public static final char CHAR_GWA = 0xACFC; // 과
+	public static final char CHAR_WA = 0xC640;     //-> 와
+	public static final char CHAR_GWA = 0xACFC;    //-> 과
 	
 	
 	public static boolean hasFinalConsonant(final char unicode){
@@ -41,9 +41,11 @@ public class Hangul {
 				
 			case CONJUNCTION:
 				return hasFinalConsonant(unicode) ? CHAR_I : CHAR_GA;
-			case AND:
+			
+            case AND:
 				return hasFinalConsonant(unicode) ? CHAR_GWA : CHAR_WA;
-			default:
+			
+            default:
 				throw new IllegalArgumentException();
 		}
 	}
