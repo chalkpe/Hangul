@@ -23,7 +23,34 @@ public class Hangul {
 	public static final char CHAR_GWA  = 0xACFC; //-> 과
 	public static final char CHAR_WA   = 0xC640; //-> 와
 	
-	public static final Pattern pattern = Pattern.compile("([가-힣])%(NOMINATIVE|ACCUSATIVE|COMITATIVE|TOPIC)%");
+	public static final Pattern pattern = Pattern.compile("(\\S)\\[\\[(이|가|을|를|과|와|은|는|NOMINATIVE|ACCUSATIVE|COMITATIVE|TOPIC)\\]\\]");
+	
+	public static Hangul.Type getType(String typeText){
+		switch(typeText){
+		case "이":
+		case "가":
+		case "NOMINATIVE":
+			return Hangul.Type.NOMINATIVE;
+
+		case "을":
+		case "를":
+		case "ACCUSATIVE":
+			return Hangul.Type.ACCUSATIVE;
+
+		case "과":
+		case "와":
+		case "COMITATIVE":
+			return Hangul.Type.COMITATIVE;
+			
+		case "은":
+		case "는":
+		case "TOPIC":
+			return Hangul.Type.TOPIC;
+			
+		default:
+			throw new IllegalArgumentException();
+		}
+	}
 	
 	public static boolean hasFinalConsonant(final String unicode){
 		return hasFinalConsonant(unicode.charAt(unicode.length() - 1));
@@ -51,40 +78,21 @@ public class Hangul {
 	
 	public static char getPostposition(final char unicode, final Hangul.Type type){
 		if(unicode < CHAR_BEGIN || unicode > CHAR_END){
-			throw new CharacterIndexOutOfBoundsException(unicode);
+			return getPostposition(CHAR_BEGIN, type);
 		}
 		
 		switch(type){
 		case NOMINATIVE:
 			return hasFinalConsonant(unicode) ? CHAR_I : CHAR_GA;
-
+			
 		case ACCUSATIVE:
 			return hasFinalConsonant(unicode) ? CHAR_EUL : CHAR_LEUL;
-
+			
 		case COMITATIVE:
 			return hasFinalConsonant(unicode) ? CHAR_GWA : CHAR_WA;
 			
 		case TOPIC:
 			return hasFinalConsonant(unicode) ? CHAR_EUN : CHAR_NEUN;
-			
-		default:
-			throw new IllegalArgumentException();
-		}
-	}
-	
-	public static Hangul.Type getType(String typeText){
-		switch(typeText){
-		case "NOMINATIVE":
-			return Hangul.Type.NOMINATIVE;
-
-		case "ACCUSATIVE":
-			return Hangul.Type.ACCUSATIVE;
-
-		case "COMITATIVE":
-			return Hangul.Type.COMITATIVE;
-			
-		case "TOPIC":
-			return Hangul.Type.TOPIC;
 			
 		default:
 			throw new IllegalArgumentException();
