@@ -23,7 +23,7 @@ public class Hangul {
 	public static final char CHAR_GWA  = 0xACFC; //-> 과
 	public static final char CHAR_WA   = 0xC640; //-> 와
 	
-	public static final Pattern pattern = Pattern.compile("([가-힣])%(NOMINATIVE|ACCUSATIVE|COMITATIVE|TOPIC)");
+	public static final Pattern pattern = Pattern.compile("([가-힣])%(NOMINATIVE|ACCUSATIVE|COMITATIVE|TOPIC)%");
 	
 	public static boolean hasFinalConsonant(final String unicode){
 		return hasFinalConsonant(unicode.charAt(unicode.length() - 1));
@@ -97,6 +97,7 @@ public class Hangul {
 		while(m.find()){
 			m.appendReplacement(sb, m.group(1).concat(String.valueOf(getPostposition(m.group(1), getType(m.group(2))))));
 		}
+		m.appendTail(sb);
 		return String.format(sb.toString(), args);
 	}
 }
