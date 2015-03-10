@@ -100,12 +100,15 @@ public class Hangul {
 	}
 	
 	public static String format(String format, Object... args){
+		format = String.format(format, args);
 		Matcher m = pattern.matcher(format);
+		
 		StringBuffer sb = new StringBuffer(format.length());
 		while(m.find()){
 			m.appendReplacement(sb, m.group(1).concat(String.valueOf(getPostposition(m.group(1), getType(m.group(2))))));
 		}
 		m.appendTail(sb);
-		return String.format(sb.toString(), args);
+		
+		return sb.toString();
 	}
 }
