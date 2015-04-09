@@ -4,7 +4,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Hangul {
-	public static enum Type {
+	public enum Type {
 		NOMINATIVE, //-> 이/가
 		ACCUSATIVE, //-> 을/를
 		COMITATIVE, //-> 과/와
