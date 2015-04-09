@@ -39,16 +39,20 @@ public class HangulSyllable extends Hangul { //Hangul Syllables, AC00—D7A3
                 + finalJamo.getIndex());
     }
 
+    public int getOffset(){
+        return this.getCharacter() - HangulSyllable.MIN_VALUE;
+    }
+
     public int getInitialJamoIndex(){
-        return this.getCharacter() / (Hangul.MEDIALS.size() * Hangul.FINALS.size());
+        return this.getOffset() / (Hangul.MEDIALS.size() * Hangul.FINALS.size());
     }
 
     public int getMedialJamoIndex(){
-        return (this.getCharacter() % (Hangul.MEDIALS.size() * Hangul.FINALS.size())) / Hangul.MEDIALS.size();
+        return (this.getOffset() % (Hangul.MEDIALS.size() * Hangul.FINALS.size())) / Hangul.MEDIALS.size();
     }
 
     public int getFinalJamoIndex(){
-        return (this.getCharacter() % (Hangul.MEDIALS.size() * Hangul.FINALS.size())) % Hangul.MEDIALS.size();
+        return (this.getOffset() % (Hangul.MEDIALS.size() * Hangul.FINALS.size())) % Hangul.MEDIALS.size();
     }
 
     public HangulJamo getInitialJamo(){
