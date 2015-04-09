@@ -1,4 +1,4 @@
-package com.mcpekorea.hangul;
+package pe.chalk.hangul;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

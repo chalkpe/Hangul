@@ -1,4 +1,4 @@
-package com.mcpekorea.hangul;
+package pe.chalk.hangul;
 
 public class CharacterIndexOutOfBoundsException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
