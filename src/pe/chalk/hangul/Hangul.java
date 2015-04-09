@@ -1,119 +1,127 @@
 package pe.chalk.hangul;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.ArrayList;
+import java.util.Arrays;
 
-public class Hangul {
-	public enum Type {
-		NOMINATIVE, //-> 이/가
-		ACCUSATIVE, //-> 을/를
-		COMITATIVE, //-> 과/와
-		TOPIC       //-> 은/는
-	}
+/**
+ * @author ChalkPE <amato0617@gmail.com>
+ * @since 2015-04-10
+ */
+public abstract class Hangul {
+    public static final ArrayList<HangulJamo> INITIALS = new ArrayList<>(Arrays.asList( //19
+            new HangulJamo(0x3131, HangulJamo.Type.INITIAL), //ㄱ
+            new HangulJamo(0x3132, HangulJamo.Type.INITIAL), //ㄲ
+            new HangulJamo(0x3134, HangulJamo.Type.INITIAL), //ㄴ
+            new HangulJamo(0x3137, HangulJamo.Type.INITIAL), //ㄷ
+            new HangulJamo(0x3138, HangulJamo.Type.INITIAL), //ㄸ
+            new HangulJamo(0x3139, HangulJamo.Type.INITIAL), //ㄹ
+            new HangulJamo(0x3141, HangulJamo.Type.INITIAL), //ㅁ
+            new HangulJamo(0x3142, HangulJamo.Type.INITIAL), //ㅂ
+            new HangulJamo(0x3143, HangulJamo.Type.INITIAL), //ㅃ
+            new HangulJamo(0x3145, HangulJamo.Type.INITIAL), //ㅅ
 
-	public static final char CHAR_BEGIN = 0xAC00;  //-> 가
-	public static final char CHAR_END   = 0xD7A3;  //-> 힣
-	
-	public static final char CHAR_EUL  = 0xC744; //-> 을
-	public static final char CHAR_LEUL = 0xB97C; //-> 를
-	public static final char CHAR_EUN  = 0xC740; //-> 은
-	public static final char CHAR_NEUN = 0xB294; //-> 는
-	public static final char CHAR_I    = 0xC774; //-> 이
-	public static final char CHAR_GA   = 0xAC00; //-> 가
-	public static final char CHAR_GWA  = 0xACFC; //-> 과
-	public static final char CHAR_WA   = 0xC640; //-> 와
-	
-	public static final char[] INITIAL_CONSONANTS = new char[]{
-	    0x3131, 0x3132, 0x3134, 0x3137, 0x3138, 0x3139, 0x3141, 0x3142, 0x3143, 0x3145, 0x3146, 0x3147, 0x3148, 0x3149, 0x314a, 0x314b, 0x314c, 0x314d, 0x314e
-	    //ㄱ, ㄲ, ㄴ, ㄷ, ㄸ, ㄹ, ㅁ, ㅂ, ㅃ, ㅅ, ㅆ, ㅇ, ㅈ, ㅉ, ㅊ, ㅋ, ㅌ, ㅍ, ㅎ
-	};
-	
-	public static final Pattern pattern = Pattern.compile("(\\S)\\[\\[(이|가|을|를|과|와|은|는|NOMINATIVE|ACCUSATIVE|COMITATIVE|TOPIC)\\]\\]");
-	
-	public static Hangul.Type getType(String typeText){
-		switch(typeText){
-		case "이":
-		case "가":
-		case "NOMINATIVE":
-			return Hangul.Type.NOMINATIVE;
+            new HangulJamo(0x3146, HangulJamo.Type.INITIAL), //ㅆ
+            new HangulJamo(0x3147, HangulJamo.Type.INITIAL), //ㅇ
+            new HangulJamo(0x3148, HangulJamo.Type.INITIAL), //ㅈ
+            new HangulJamo(0x3149, HangulJamo.Type.INITIAL), //ㅉ
+            new HangulJamo(0x314a, HangulJamo.Type.INITIAL), //ㅊ
+            new HangulJamo(0x314b, HangulJamo.Type.INITIAL), //ㅋ
+            new HangulJamo(0x314c, HangulJamo.Type.INITIAL), //ㅌ
+            new HangulJamo(0x314d, HangulJamo.Type.INITIAL), //ㅍ
+            new HangulJamo(0x314e, HangulJamo.Type.INITIAL)  //ㅎ
+    ));
+    public static final ArrayList<HangulJamo> MEDIALS = new ArrayList<>(Arrays.asList( //21
+            new HangulJamo(0x314f, HangulJamo.Type.MEDIAL), //ㅏ
+            new HangulJamo(0x3150, HangulJamo.Type.MEDIAL), //ㅐ
+            new HangulJamo(0x3151, HangulJamo.Type.MEDIAL), //ㅑ
+            new HangulJamo(0x3152, HangulJamo.Type.MEDIAL), //ㅒ
+            new HangulJamo(0x3153, HangulJamo.Type.MEDIAL), //ㅓ
+            new HangulJamo(0x3154, HangulJamo.Type.MEDIAL), //ㅔ
+            new HangulJamo(0x3155, HangulJamo.Type.MEDIAL), //ㅕ
+            new HangulJamo(0x3156, HangulJamo.Type.MEDIAL), //ㅖ
+            new HangulJamo(0x3157, HangulJamo.Type.MEDIAL), //ㅗ
+            new HangulJamo(0x3158, HangulJamo.Type.MEDIAL), //ㅘ
 
-		case "을":
-		case "를":
-		case "ACCUSATIVE":
-			return Hangul.Type.ACCUSATIVE;
+            new HangulJamo(0x3159, HangulJamo.Type.MEDIAL), //ㅙ
+            new HangulJamo(0x315a, HangulJamo.Type.MEDIAL), //ㅚ
+            new HangulJamo(0x315b, HangulJamo.Type.MEDIAL), //ㅛ
+            new HangulJamo(0x315c, HangulJamo.Type.MEDIAL), //ㅜ
+            new HangulJamo(0x315d, HangulJamo.Type.MEDIAL), //ㅝ
+            new HangulJamo(0x315e, HangulJamo.Type.MEDIAL), //ㅞ
+            new HangulJamo(0x315f, HangulJamo.Type.MEDIAL), //ㅟ
+            new HangulJamo(0x3160, HangulJamo.Type.MEDIAL), //ㅠ
+            new HangulJamo(0x3161, HangulJamo.Type.MEDIAL), //ㅡ
+            new HangulJamo(0x3162, HangulJamo.Type.MEDIAL), //ㅢ
 
-		case "과":
-		case "와":
-		case "COMITATIVE":
-			return Hangul.Type.COMITATIVE;
-			
-		case "은":
-		case "는":
-		case "TOPIC":
-			return Hangul.Type.TOPIC;
-			
-		default:
-			throw new IllegalArgumentException();
-		}
-	}
-	
-	public static boolean hasFinalConsonant(final String unicode){
-		return hasFinalConsonant(unicode.charAt(unicode.length() - 1));
-	}
-	
-	public static boolean hasFinalConsonant(final char unicode){
-		if(unicode < CHAR_BEGIN || unicode > CHAR_END){
-			throw new CharacterIndexOutOfBoundsException(unicode);
-		}
-		
-		return (unicode - CHAR_BEGIN) % 28 != 0;
-	}
-	
-	public static char getPostposition(final String unicode, final String type){
-		return getPostposition(unicode.charAt(unicode.length() - 1), getType(type));
-	}
-	
-	public static char getPostposition(final char unicode, final String type){
-		return getPostposition(unicode, getType(type));
-	}
-	
-	public static char getPostposition(final String unicode, final Hangul.Type type){
-		return getPostposition(unicode.charAt(unicode.length() - 1), type);
-	}
-	
-	public static char getPostposition(final char unicode, final Hangul.Type type){
-		if(unicode < CHAR_BEGIN || unicode > CHAR_END){
-			return getPostposition(CHAR_BEGIN, type);
-		}
-		
-		switch(type){
-		case NOMINATIVE:
-			return hasFinalConsonant(unicode) ? CHAR_I : CHAR_GA;
-			
-		case ACCUSATIVE:
-			return hasFinalConsonant(unicode) ? CHAR_EUL : CHAR_LEUL;
-			
-		case COMITATIVE:
-			return hasFinalConsonant(unicode) ? CHAR_GWA : CHAR_WA;
-			
-		case TOPIC:
-			return hasFinalConsonant(unicode) ? CHAR_EUN : CHAR_NEUN;
-			
-		default:
-			throw new IllegalArgumentException();
-		}
-	}
-	
-	public static String format(String format, Object... args){
-		format = String.format(format, args);
-		Matcher m = pattern.matcher(format);
-		
-		StringBuffer sb = new StringBuffer(format.length());
-		while(m.find()){
-			m.appendReplacement(sb, m.group(1).concat(String.valueOf(getPostposition(m.group(1), getType(m.group(2))))));
-		}
-		m.appendTail(sb);
-		
-		return sb.toString();
-	}
+            new HangulJamo(0x3163, HangulJamo.Type.MEDIAL)  //ㅣ
+    ));
+    public static final ArrayList<HangulJamo> FINALS = new ArrayList<>(Arrays.asList( //28
+            new HangulJamo(HangulJamo.NONE, HangulJamo.Type.FINAL), //None
+            new HangulJamo(0x3131, HangulJamo.Type.FINAL), //ㄱ
+            new HangulJamo(0x3132, HangulJamo.Type.FINAL), //ㄲ
+            new HangulJamo(0x3133, HangulJamo.Type.FINAL), //ㄳ
+            new HangulJamo(0x3134, HangulJamo.Type.FINAL), //ㄴ
+            new HangulJamo(0x3135, HangulJamo.Type.FINAL), //ㄵ
+            new HangulJamo(0x3136, HangulJamo.Type.FINAL), //ㄶ
+            new HangulJamo(0x3137, HangulJamo.Type.FINAL), //ㄷ
+            new HangulJamo(0x3139, HangulJamo.Type.FINAL), //ㄹ
+            new HangulJamo(0x313a, HangulJamo.Type.FINAL), //ㄺ
+
+            new HangulJamo(0x313b, HangulJamo.Type.FINAL), //ㄻ
+            new HangulJamo(0x313c, HangulJamo.Type.FINAL), //ㄼ
+            new HangulJamo(0x313d, HangulJamo.Type.FINAL), //ㄽ
+            new HangulJamo(0x313e, HangulJamo.Type.FINAL), //ㄾ
+            new HangulJamo(0x313f, HangulJamo.Type.FINAL), //ㄿ
+            new HangulJamo(0x3140, HangulJamo.Type.FINAL), //ㅀ
+            new HangulJamo(0x3141, HangulJamo.Type.FINAL), //ㅁ
+            new HangulJamo(0x3142, HangulJamo.Type.FINAL), //ㅂ
+            new HangulJamo(0x3144, HangulJamo.Type.FINAL), //ㅄ
+            new HangulJamo(0x3145, HangulJamo.Type.FINAL), //ㅅ
+
+            new HangulJamo(0x3146, HangulJamo.Type.FINAL), //ㅆ
+            new HangulJamo(0x3147, HangulJamo.Type.FINAL), //ㅇ
+            new HangulJamo(0x3148, HangulJamo.Type.FINAL), //ㅈ
+            new HangulJamo(0x314a, HangulJamo.Type.FINAL), //ㅊ
+            new HangulJamo(0x314b, HangulJamo.Type.FINAL), //ㅋ
+            new HangulJamo(0x314c, HangulJamo.Type.FINAL), //ㅌ
+            new HangulJamo(0x314d, HangulJamo.Type.FINAL), //ㅍ
+            new HangulJamo(0x314e, HangulJamo.Type.FINAL)  //ㅎ
+    ));
+
+    private char character;
+
+    public Hangul(final int integer){
+        this.setCharacter((char) integer);
+    }
+    public Hangul(final char character){
+        this.setCharacter(character);
+    }
+
+    public char getCharacter(){
+        return character;
+    }
+
+    public void setCharacter(final char character){
+        if(this.isOutOfBounds(character)){
+            throw new CharacterIndexOutOfBoundsException(character);
+        }
+        this.character = character;
+    }
+
+    public abstract boolean isOutOfBounds(final char character);
+
+    @Override
+    public boolean equals(final Object that){
+        return this == that || (that != null && this.getClass() == that.getClass()) && this.getCharacter() == ((Hangul) that).getCharacter();
+    }
+
+    @Override
+    public int hashCode(){
+        return (int) character;
+    }
+
+    @Override
+    public String toString(){
+        return "[Hangul " + this.getCharacter() + "]";
+    }
 }
