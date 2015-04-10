@@ -11,11 +11,24 @@ public class HangulSyllable extends Hangul { //Hangul Syllables, AC00—D7A3
     public static final char MIN_VALUE = 0xAC00; //가
     public static final char MAX_VALUE = 0xD7A3; //힣
 
+    private HangulInitialConsonant initialConsonant;
+    private HangulMedialVowel medialVowel;
+    private HangulFinalConsonant finalConsonant;
+
     public HangulSyllable(final int integer){
         this((char) integer);
     }
     public HangulSyllable(final char character){
         super(character);
+    }
+
+    @Override
+    public void setCharacter(char character){
+        super.setCharacter(character);
+
+        this.initialConsonant = HangulInitialConsonant.INITIAL_CONSONANTS.get(this.getInitialConsonantIndex());
+        this.medialVowel = HangulMedialVowel.MEDIAL_VOWELS.get(this.getMedialVowelIndex());
+        this.finalConsonant = HangulFinalConsonant.FINAL_CONSONANTS.get(this.getFinalConsonantIndex());
     }
 
     @Override
@@ -28,46 +41,42 @@ public class HangulSyllable extends Hangul { //Hangul Syllables, AC00—D7A3
         return "[HangulSyllable " + this.getCharacter() + "]";
     }
 
-    public static HangulSyllable createFromJamo(HangulJamo initialJamo, HangulJamo medialJamo, HangulJamo finalJamo){
-        if(initialJamo.getType() != HangulJamo.Type.INITIAL || medialJamo.getType() != HangulJamo.Type.MEDIAL || finalJamo.getType() != HangulJamo.Type.FINAL){
-            throw new IllegalArgumentException();
-        }
-
+    public static HangulSyllable createFromJamo(HangulInitialConsonant initialConsonant, HangulMedialVowel medialVowel, HangulFinalConsonant finalConsonant){
         return new HangulSyllable(HangulSyllable.MIN_VALUE
-                + initialJamo.getIndex() * Hangul.MEDIALS.size() * Hangul.FINALS.size()
-                + medialJamo.getIndex() * Hangul.FINALS.size()
-                + finalJamo.getIndex());
+                + initialConsonant.getIndex() * HangulMedialVowel.LENGTH * HangulFinalConsonant.LENGTH
+                + medialVowel.getIndex() * HangulFinalConsonant.LENGTH
+                + finalConsonant.getIndex());
     }
 
     public int getOffset(){
         return this.getCharacter() - HangulSyllable.MIN_VALUE;
     }
 
-    public int getInitialJamoIndex(){
-        return this.getOffset() / (Hangul.MEDIALS.size() * Hangul.FINALS.size());
+    public int getInitialConsonantIndex(){
+        return this.getOffset() / (HangulMedialVowel.LENGTH * HangulFinalConsonant.LENGTH);
     }
 
-    public int getMedialJamoIndex(){
-        return (this.getOffset() % (Hangul.MEDIALS.size() * Hangul.FINALS.size())) / Hangul.MEDIALS.size();
+    public int getMedialVowelIndex(){
+        return (this.getOffset() % (HangulMedialVowel.LENGTH * HangulFinalConsonant.LENGTH)) / HangulMedialVowel.LENGTH;
     }
 
-    public int getFinalJamoIndex(){
-        return (this.getOffset() % (Hangul.MEDIALS.size() * Hangul.FINALS.size())) % Hangul.MEDIALS.size();
+    public int getFinalConsonantIndex(){
+        return (this.getOffset() % (HangulMedialVowel.LENGTH * HangulFinalConsonant.LENGTH)) % HangulMedialVowel.LENGTH;
     }
 
-    public HangulJamo getInitialJamo(){
-        return Hangul.INITIALS.get(this.getInitialJamoIndex());
+    public HangulInitialConsonant getInitialConsonant(){
+        return this.initialConsonant;
     }
 
-    public HangulJamo getMedialJamo(){
-        return Hangul.MEDIALS.get(this.getMedialJamoIndex());
+    public HangulMedialVowel getMedialVowel(){
+        return this.medialVowel;
     }
 
-    public HangulJamo getFinalJamo(){
-        return Hangul.FINALS.get(this.getFinalJamoIndex());
+    public HangulFinalConsonant getFinalConsonant(){
+        return this.finalConsonant;
     }
 
     public ArrayList<HangulJamo> getJamoGroup(){
-        return new ArrayList<>(Arrays.asList(this.getInitialJamo(), this.getMedialJamo(), this.getFinalJamo()));
+        return new ArrayList<>(Arrays.asList(this.getInitialConsonant(), this.getMedialVowel(), this.getFinalConsonant()));
     }
 }
